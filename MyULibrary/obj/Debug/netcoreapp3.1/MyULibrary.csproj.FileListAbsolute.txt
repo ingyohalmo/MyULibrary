@@ -103,3 +103,8 @@ C:\ProyectosConcept\MyULibrary\MyULibrary\obj\Debug\netcoreapp3.1\MyULibrary.csp
 C:\ProyectosConcept\MyULibrary\MyULibrary\obj\Debug\netcoreapp3.1\MyULibrary.dll
 C:\ProyectosConcept\MyULibrary\MyULibrary\obj\Debug\netcoreapp3.1\MyULibrary.pdb
 C:\ProyectosConcept\MyULibrary\MyULibrary\obj\Debug\netcoreapp3.1\MyULibrary.genruntimeconfig.cache
+C:\ProyectosConcept\MyULibrary\MyULibrary\bin\Debug\netcoreapp3.1\Microsoft.OpenApi.dll
+C:\ProyectosConcept\MyULibrary\MyULibrary\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
+C:\ProyectosConcept\MyULibrary\MyULibrary\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\ProyectosConcept\MyULibrary\MyULibrary\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\ProyectosConcept\MyULibrary\MyULibrary\bin\Debug\netcoreapp3.1\package-lock.json

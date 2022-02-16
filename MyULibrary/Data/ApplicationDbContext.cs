@@ -17,5 +17,8 @@ namespace MyULibrary.Data
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
         }
+
+        public DbSet<Book> Books { get; set; }
+        public DbSet<BookUser> BookUsers { get; set; }
     }
 }

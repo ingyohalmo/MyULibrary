@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using MyULibrary.Data;
 using MyULibrary.Models;
 
@@ -38,8 +39,21 @@ namespace MyULibrary
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();
+
             services.AddControllersWithViews();
+
             services.AddRazorPages();
+
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "My U's Library - API",
+                    Version = "v1",
+                    Description = "The HTTP API"
+                });
+            });
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -94,6 +108,12 @@ namespace MyULibrary
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
+            app.UseSwagger()
+                .UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                });
         }
     }
 }
