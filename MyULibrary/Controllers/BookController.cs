@@ -1,8 +1,11 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyULibrary.Data;
 using MyULibrary.Models;
+using MyULibrary.Models.Resources;
 
 namespace MyULibrary.Controllers
 {
@@ -12,37 +15,48 @@ namespace MyULibrary.Controllers
     public class BookController : ControllerBase
     {
         private readonly ApplicationDbContext _appDbContext;
+        private readonly IMapper _mapper;
 
-        public BookController(ApplicationDbContext applicationDbContext)
+        public BookController(ApplicationDbContext applicationDbContext, IMapper mapper)
         {
             _appDbContext = applicationDbContext;
+            _mapper = mapper;
         }
 
         [HttpPost("[action]")]
-        public IActionResult Create([FromBody] Book book)
+        public async Task<IActionResult> Create([FromBody] Book book)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            _appDbContext.Books.Add(book);
-            _appDbContext.SaveChanges();
+            await _appDbContext.Books.AddAsync(book);
+            await _appDbContext.SaveChangesAsync();
 
             return Ok(book);
         }
-        
-        [HttpPut("[action]")]
-        public IActionResult Update([FromBody] Book book)
+
+        [HttpPut("[action]/{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] BookResource bookResource)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
-            _appDbContext.Books.Update(book);
-            _appDbContext.SaveChanges();
 
-            return Ok(book);
+            var book = await _appDbContext.Books.FindAsync(id);
+
+            if (book == null)
+                NotFound();
+
+            _mapper.Map(bookResource, book);
+
+            await _appDbContext.SaveChangesAsync();
+
+            var result = _mapper.Map(book, bookResource);
+
+            return Ok(result);
         }
-        
+
         [HttpGet("[action]")]
-        public IActionResult GetBooks()
+        public async Task<IActionResult> GetBooks()
         {
             var books = _appDbContext.Books.ToList();
             return Ok(books);

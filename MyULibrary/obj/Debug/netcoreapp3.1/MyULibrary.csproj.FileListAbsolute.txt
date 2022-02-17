@@ -108,3 +108,5 @@ C:\ProyectosConcept\MyULibrary\MyULibrary\bin\Debug\netcoreapp3.1\Swashbuckle.As
 C:\ProyectosConcept\MyULibrary\MyULibrary\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\ProyectosConcept\MyULibrary\MyULibrary\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\ProyectosConcept\MyULibrary\MyULibrary\bin\Debug\netcoreapp3.1\package-lock.json
+C:\ProyectosConcept\MyULibrary\MyULibrary\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\ProyectosConcept\MyULibrary\MyULibrary\bin\Debug\netcoreapp3.1\System.Runtime.CompilerServices.Unsafe.dll
