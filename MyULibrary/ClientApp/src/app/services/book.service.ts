@@ -11,5 +11,13 @@ export class BookService {
   getBooks() {
     return this.http.get(this.baseUrl + 'api/Book/GetBooks');
   }
+  
+  getBook(id) {
+    return this.http.get(this.baseUrl + 'api/Book/GetBook/' + id);
+  }
+
+  createBook(book) {
+    return this.http.post(this.baseUrl + 'api/Book/Create', book);
+  }
 
 }

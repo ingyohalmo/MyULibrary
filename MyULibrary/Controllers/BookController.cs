@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MyULibrary.Data;
 using MyULibrary.Models;
 using MyULibrary.Models.Resources;
@@ -11,7 +12,7 @@ namespace MyULibrary.Controllers
 {
     //[Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class BookController : ControllerBase
     {
         private readonly ApplicationDbContext _appDbContext;
@@ -23,19 +24,23 @@ namespace MyULibrary.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost("[action]")]
-        public async Task<IActionResult> Create([FromBody] Book book)
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] BookResource bookResource)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
+            var book = _mapper.Map<BookResource, Book>(bookResource);
+
             await _appDbContext.Books.AddAsync(book);
             await _appDbContext.SaveChangesAsync();
 
-            return Ok(book);
+            var result = _mapper.Map<Book, BookResource>(book);
+
+            return Ok(result);
         }
 
-        [HttpPut("[action]/{id}")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, [FromBody] BookResource bookResource)
         {
             if (!ModelState.IsValid)
@@ -55,11 +60,24 @@ namespace MyULibrary.Controllers
             return Ok(result);
         }
 
-        [HttpGet("[action]")]
+        [HttpGet]
         public async Task<IActionResult> GetBooks()
         {
             var books = _appDbContext.Books.ToList();
             return Ok(books);
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetBook(int id)
+        {
+            var book = await _appDbContext.Books.SingleOrDefaultAsync(b => b.BookId == id);
+
+            if (book == null)
+                NotFound();
+
+            var bookResource = _mapper.Map<Book, BookResource>(book);
+
+            return Ok(bookResource);
         }
     }
 }

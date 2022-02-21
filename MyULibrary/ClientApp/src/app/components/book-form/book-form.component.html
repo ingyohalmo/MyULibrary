@@ -1,24 +1,32 @@
 <h1>Add Book</h1>
-<form>
+<p>
+    {{ book | json }}
+  </p>
+<form #f="ngForm" (ngSubmit)="submit()" novalidate>
     <div class="form-group">
         <label for="title">Title</label>
-        <input class="form-control" type="text" name="title" id="title">
+        <input class="form-control" type="text" name="title" id="title" [(ngModel)]="book.title" required #title="ngModel">
+        <div class="alert alert-danger" *ngIf="title.touched && !title.valid">Please specify the title.</div>
     </div>
     <div class="form-group">
         <label for="genre">Genre</label>
-        <input class="form-control" type="text" name="genre" id="genre">
+        <input class="form-control" type="text" name="genre" id="genre" [(ngModel)]="book.genre" required #genre="ngModel">
+        <div class="alert alert-danger" *ngIf="genre.touched && !genre.valid">Please specify the genre.</div>
     </div>
     <div class="form-group">
         <label for="author">Author</label>
-        <input class="form-control" type="text" name="author" id="author">
+        <input class="form-control" type="text" name="author" id="author" [(ngModel)]="book.author" required #author="ngModel">
+        <div class="alert alert-danger" *ngIf="author.touched && !author.valid">Please specify the author.</div>
     </div>
     <div class="form-group">
         <label for="stock">Stock</label>
-        <input class="form-control" type="number" name="stock" id="stock">
+        <input class="form-control" type="number" name="stock" id="stock" [(ngModel)]="book.stock" required #stock="ngModel">
+        <div class="alert alert-danger" *ngIf="stock.touched && !stock.valid">Please specify the stock.</div>
     </div>
     <div class="form-group">
         <label for="publishDate">Publish Date</label>
-        <input class="form-control" type="date" name="publishDate" id="publishDate">
+        <input class="form-control" type="date" name="publishDate" id="publishDate" [(ngModel)]="book.publishDate" required #publishDate="ngModel">
+        <div class="alert alert-danger" *ngIf="publishDate.touched && !publishDate.valid">Please specify the publish date.</div>
     </div>
-    <button class="btn btn-lg btn-primary" type="submit">Save</button>
+    <button class="btn btn-primary" [disabled]="!f.valid">Save</button>
 </form>
