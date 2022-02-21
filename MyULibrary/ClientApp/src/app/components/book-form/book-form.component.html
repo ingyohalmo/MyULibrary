@@ -28,5 +28,5 @@
         <input class="form-control" type="date" name="publishDate" id="publishDate" [(ngModel)]="book.publishDate" required #publishDate="ngModel">
         <div class="alert alert-danger" *ngIf="publishDate.touched && !publishDate.valid">Please specify the publish date.</div>
     </div>
-    <button class="btn btn-primary" [disabled]="!f.valid">Save</button>
+    <button class="btn btn-primary">Save</button>
 </form>

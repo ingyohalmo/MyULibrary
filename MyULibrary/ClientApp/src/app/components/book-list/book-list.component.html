@@ -1,24 +1,43 @@
-<p>Table is just a mapping of objects to table rows with <code>ngFor</code></p>
-
+<h2>Books</h2>
+<!-- <p *ngIf="auth.authenticated()">
+  <a [routerLink]="['/vehicles/new']" class="btn btn-primary">New Vehicle</a>
+</p> -->
+<button class="btn btn-secondary" (click)="resetFilter()">Reset</button>
 <table class="table table-striped">
   <thead>
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">Title</th>
-      <th scope="col">Genre</th>
-      <th scope="col">Author</th>
-      <th scope="col">Stock</th>
-      <th scope="col">Publish Date</th>
+      <th *ngFor="let c of columns">
+        <div *ngIf="c.isSortable" (click)="sortBy(c.key)">
+          {{ c.title }}
+          <i
+            *ngIf="query.sortBy === c.key"
+            class="fa"
+            [class.fa-sort-asc]="query.isSortAscending"
+            [class.fa-sort-desc]="!query.isSortAscending"
+          ></i>
+        </div>
+        <div *ngIf="!c.isSortable">
+          {{ c.title }}
+        </div>
+      </th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let book of books; index as i">
-      <th scope="row">{{ i + 1 }}</th>
+    <tr *ngFor="let book of queryResult.items">
+      <td>{{ book.bookId }}</td>
       <td>{{ book.title }}</td>
       <td>{{ book.genre }}</td>
       <td>{{ book.author }}</td>
       <td>{{ book.stock | number }}</td>
       <td>{{ book.publishDate | date }}</td>
+      <td>
+        <a [routerLink]="['/book/', book.bookId]">View</a>
+      </td>
     </tr>
   </tbody>
 </table>
+<pagination
+  [total-items]="queryResult.totalItems"
+  [page-size]="query.pageSize"
+  (page-changed)="onPageChange($event)"
+></pagination>

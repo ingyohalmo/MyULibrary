@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
-import { HomeComponent } from './components/home/home.component';
 import { FetchDataComponent } from './components/fetch-data/fetch-data.component';
 import { BookFormComponent } from './components/book-form/book-form.component';
 import { BookListComponent } from './components/book-list/book-list.component';
@@ -20,15 +19,16 @@ import { ToastrModule } from 'ngx-toastr';
 import { BookService } from './services/book.service';
 import { NotificationService } from './services/notification.service';
 import { AppErrorHandler } from './app.error-handler';
+import { PaginationComponent } from './shared/pagination.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
-    HomeComponent,
     FetchDataComponent,
     BookFormComponent,
-    BookListComponent
+    BookListComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -38,10 +38,10 @@ import { AppErrorHandler } from './app.error-handler';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: '', redirectTo: 'books', pathMatch: 'full' },
       { path: 'book/new', component: BookFormComponent },
       { path: 'book/:id', component: BookFormComponent },
-      { path: 'list/books', component: BookListComponent },
+      { path: 'books', component: BookListComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
     ])
   ],

@@ -11,6 +11,8 @@ namespace MyULibrary.Mapping
             CreateMap<Book, BookResource>();
             CreateMap<BookResource, Book>()
                 .ForMember(b => b.BookId, opt => opt.Ignore());
+            CreateMap<BookQueryResource, BookQuery>();
+            CreateMap(typeof(QueryResult<>), typeof(QueryResultResource<>));
         }
     }
 }

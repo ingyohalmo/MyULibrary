@@ -1,12 +1,14 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyULibrary.Data;
+using MyULibrary.Extensions;
 using MyULibrary.Models;
 using MyULibrary.Models.Resources;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace MyULibrary.Controllers
 {
@@ -61,10 +63,31 @@ namespace MyULibrary.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBooks()
+        public async Task<QueryResultResource<BookResource>> GetBooks([FromQuery] BookQueryResource filterResource)
         {
-            var books = _appDbContext.Books.ToList();
-            return Ok(books);
+            var filter = _mapper.Map<BookQueryResource, BookQuery>(filterResource);
+
+            var result = new QueryResult<Book>();
+
+            var query = _appDbContext.Books
+                .AsQueryable();
+
+            var columnsMap = new Dictionary<string, Expression<Func<Book, object>>>()
+            {
+                ["title"] = b => b.Title,
+                ["author"] = b => b.Author,
+                ["genre"] = b => b.Genre
+            };
+
+            query = query.ApplyOrdering(filter, columnsMap);
+
+            result.TotalItems = await query.CountAsync();
+
+            query = query.ApplyPaging(filter);
+
+            result.Items = await query.ToListAsync();
+
+            return _mapper.Map<QueryResult<Book>, QueryResultResource<BookResource>>(result);
         }
 
         [HttpGet("{id:int}")]
