@@ -17,7 +17,7 @@ export class BookFormComponent implements OnInit {
     genre: "",
     author: "",
     stock: 0,
-    publishDate: Date.now().toString()
+    publishDate: new Date(Date.now()).toISOString()
   };
 
   constructor(
@@ -27,7 +27,7 @@ export class BookFormComponent implements OnInit {
     private router: Router) {
 
     this.route.params.subscribe(params => {
-      this.book.bookId = +params['id'];
+      this.book.bookId = +params['id'] || 0;
     });
 
   }
@@ -45,6 +45,20 @@ export class BookFormComponent implements OnInit {
     }
   }
 
+  formatDate(date) {
+    var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2)
+      month = '0' + month;
+    if (day.length < 2)
+      day = '0' + day;
+
+    return [year, month, day].join('-');
+  }
+
   private setBook(book) {
     this.book.bookId = book.bookId;
     this.book.title = book.title;
@@ -55,11 +69,17 @@ export class BookFormComponent implements OnInit {
   }
 
   submit() {
+    this.book.publishDate = this.formatDate(this.book.publishDate);
+    
     var result$ = (this.book.bookId) ? this.bookService.updateBook(this.book) : this.bookService.createBook(this.book);
+    
     result$.subscribe(book => {
       this.notificationService.showSuccess("Book saved successfully", "Success");
-      // this.router.navigate(['/books/', book.bookId]);
-    });
+      this.router.navigate(['/books/', this.book.bookId]);
+    },
+      error => {
+        this.notificationService.showError(error.error, "Error");
+      });
   }
 
   delete() {

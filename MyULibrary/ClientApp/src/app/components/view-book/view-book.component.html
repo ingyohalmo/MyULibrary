@@ -1,0 +1,14 @@
+<div>
+  <h2>{{ book.title }}</h2>
+  <ul>
+    <li>Author: {{ book.author }}</li>
+    <li>Genre: {{ book.genre }}</li>
+    <li>Stock: {{ book.stock | number }}</li>
+    <li>Publish Date: {{ book.publishDate | date }}</li>
+  </ul>
+  <br />
+  <p>
+    <a class="btn btn-primary" [routerLink]="['/books/edit/', bookId]">Edit</a>
+    <a class="btn btn-secondary" [routerLink]="['/books']">View All Books</a>
+  </p>
+</div>

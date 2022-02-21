@@ -1,7 +1,7 @@
 <h2>Books</h2>
-<!-- <p *ngIf="auth.authenticated()">
-  <a [routerLink]="['/vehicles/new']" class="btn btn-primary">New Vehicle</a>
-</p> -->
+<p>
+  <a [routerLink]="['/books/new']" class="btn btn-primary">New Book</a>
+</p>
 <button class="btn btn-secondary" (click)="resetFilter()">Reset</button>
 <table class="table table-striped">
   <thead>
@@ -31,7 +31,7 @@
       <td>{{ book.stock | number }}</td>
       <td>{{ book.publishDate | date }}</td>
       <td>
-        <a [routerLink]="['/book/', book.bookId]">View</a>
+        <a [routerLink]="['/books/', book.bookId]">View</a>
       </td>
     </tr>
   </tbody>

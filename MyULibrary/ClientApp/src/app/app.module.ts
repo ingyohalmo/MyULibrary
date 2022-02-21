@@ -9,6 +9,8 @@ import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { FetchDataComponent } from './components/fetch-data/fetch-data.component';
 import { BookFormComponent } from './components/book-form/book-form.component';
 import { BookListComponent } from './components/book-list/book-list.component';
+import { PaginationComponent } from './shared/pagination.component';
+import { ViewBookComponent } from './components/view-book/view-book.component';
 
 import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
@@ -19,7 +21,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { BookService } from './services/book.service';
 import { NotificationService } from './services/notification.service';
 import { AppErrorHandler } from './app.error-handler';
-import { PaginationComponent } from './shared/pagination.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { PaginationComponent } from './shared/pagination.component';
     FetchDataComponent,
     BookFormComponent,
     BookListComponent,
-    PaginationComponent
+    PaginationComponent,
+    ViewBookComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -39,8 +41,9 @@ import { PaginationComponent } from './shared/pagination.component';
     ToastrModule.forRoot(),
     RouterModule.forRoot([
       { path: '', redirectTo: 'books', pathMatch: 'full' },
-      { path: 'book/new', component: BookFormComponent },
-      { path: 'book/:id', component: BookFormComponent },
+      { path: 'books/new', component: BookFormComponent },
+      { path: 'books/edit/:id', component: BookFormComponent },
+      { path: 'books/:id', component: ViewBookComponent },
       { path: 'books', component: BookListComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
     ])
